@@ -6,6 +6,10 @@
     "@angular/core": "^11.2.14"
   },
   "dependencies": {
+    "reflect-metadata": "^0.1.13",
     "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/reflect-metadata": "^0.1.0"
   }
 }

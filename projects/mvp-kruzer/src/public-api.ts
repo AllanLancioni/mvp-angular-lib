@@ -5,3 +5,4 @@
 export * from './lib/mvp-kruzer.service';
 export * from './lib/mvp-kruzer.component';
 export * from './lib/mvp-kruzer.module';
+export * from './lib/decorators/kz-template';
