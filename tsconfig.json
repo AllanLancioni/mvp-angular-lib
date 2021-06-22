@@ -11,6 +11,12 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "paths": {
+      "mvp-kruzer": [
+        "dist/mvp-kruzer/mvp-kruzer",
+        "dist/mvp-kruzer"
+      ]
+    },
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,

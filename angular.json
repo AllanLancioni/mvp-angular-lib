@@ -3,5 +3,166 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "mvp-kruzer": {
+      "projectType": "library",
+      "root": "projects/mvp-kruzer",
+      "sourceRoot": "projects/mvp-kruzer/src",
+      "prefix": "kz",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/mvp-kruzer/tsconfig.lib.json",
+            "project": "projects/mvp-kruzer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/mvp-kruzer/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/mvp-kruzer/src/test.ts",
+            "tsConfig": "projects/mvp-kruzer/tsconfig.spec.json",
+            "karmaConfig": "projects/mvp-kruzer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/mvp-kruzer/tsconfig.lib.json",
+              "projects/mvp-kruzer/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ecom-example": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ecom-example",
+      "sourceRoot": "projects/ecom-example/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ecom-example",
+            "index": "projects/ecom-example/src/index.html",
+            "main": "projects/ecom-example/src/main.ts",
+            "polyfills": "projects/ecom-example/src/polyfills.ts",
+            "tsConfig": "projects/ecom-example/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ecom-example/src/favicon.ico",
+              "projects/ecom-example/src/assets"
+            ],
+            "styles": [
+              "projects/ecom-example/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ecom-example/src/environments/environment.ts",
+                  "with": "projects/ecom-example/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ecom-example:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ecom-example:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ecom-example:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ecom-example/src/test.ts",
+            "polyfills": "projects/ecom-example/src/polyfills.ts",
+            "tsConfig": "projects/ecom-example/tsconfig.spec.json",
+            "karmaConfig": "projects/ecom-example/karma.conf.js",
+            "assets": [
+              "projects/ecom-example/src/favicon.ico",
+              "projects/ecom-example/src/assets"
+            ],
+            "styles": [
+              "projects/ecom-example/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ecom-example/tsconfig.app.json",
+              "projects/ecom-example/tsconfig.spec.json",
+              "projects/ecom-example/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ecom-example/e2e/protractor.conf.js",
+            "devServerTarget": "ecom-example:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ecom-example:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "mvp-kruzer"
 }
