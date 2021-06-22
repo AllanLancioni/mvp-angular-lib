@@ -8,12 +8,11 @@ import { MvpKruzerModule } from 'mvp-kruzer';
 @NgModule({
   declarations: [
     AppComponent,
-    // TemplateTestComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MvpKruzerModule
+    MvpKruzerModule.forRoot({key: 'my amazing key'})
   ],
   providers: [],
   bootstrap: [AppComponent]
