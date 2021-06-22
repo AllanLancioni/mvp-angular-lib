@@ -29,7 +29,7 @@ export function KzTemplate(_props: Component) {
 
     let props = Object.create(DecoratorFactory);
     props = Object.assign(props, defaultComponentProps, _props);
-    return function (cls: any): any {
+    return function (cls: Type<any>): any {
         Reflect.defineMetadata('annotations', [_props], cls);
     }
 }
