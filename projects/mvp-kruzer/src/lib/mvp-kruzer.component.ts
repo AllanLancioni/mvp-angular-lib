@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import {KruzerLibConfig} from './kruzer-lib.config';
+import {KRUZER_LIB_CONFIG} from './kruzer-lib.config.token';
 
 @Component({
   selector: 'kz-mvp-kruzer',
@@ -10,11 +12,10 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class MvpKruzerComponent implements OnInit {
+export class MvpKruzerComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(@Inject(KRUZER_LIB_CONFIG) private keyConfig: KruzerLibConfig) {
+    console.log('token', keyConfig.key);
   }
 
 }
