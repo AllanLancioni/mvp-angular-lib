@@ -4,10 +4,9 @@ import { AfterViewInit, Component, ComponentFactory, ComponentFactoryResolver,
   ViewContainerRef, } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 import {DynamicItemDirective} from '../../directives/dynamic-item.directive';
-import {KruzerLibConfig} from '../../kruzer-lib.config';
+import {GlobalData, KruzerLibConfig} from '../../kruzer-lib.config';
 import {KRUZER_LIB_CONFIG} from '../../kruzer-lib.config.token';
 import {MvpKruzerComponent} from '../../mvp-kruzer.component';
-import {kzProductComponent} from '../../mvp-kruzer.product.component';
 import {KruzerService} from '../../services/kruzer.service';
 import {TemplateComponent} from '../template/template.component';
 
@@ -59,15 +58,10 @@ export class ResolverComponent extends TemplateComponent implements OnInit, Afte
     }
     try {
 
-      console.log('loadPage', this.currentPage);
-      console.log(`%cAmazing`, 'color: blue',  this.keyConfig.components);
 
       const found = this.globalPages.find(x => x.urls.find((y: any) => y.lang === this.kruzerService.lang && y.url === this.currentPage));
 
       this.currentPage = await this.getCurrentPage(found?.page || this.currentUrl);
-
-      console.log('resolving component');
-      console.log('resolving component', this.currentPage.page.template?.key);
 
       // const item = ComponentItemFactory.create(this.currentPage.page.template?.key, {
         // currentPage: this.currentPage,
@@ -76,7 +70,13 @@ export class ResolverComponent extends TemplateComponent implements OnInit, Afte
       //
       // const item = Array.from(this._componentFactoryResolver['_factories'].keys())
           // .find( (x: any) => x.name === this.currentPage.page.template?.key );
+
+      // obtem do config -> via config do module.forRoot
       const item = this.keyConfig.components.find( (c: any) => c.name === this.currentPage.page.template?.key );
+
+      // obtem do globaldata -> via decorators
+      // const item = GlobalData.getComponents().find((c: any) => c.name === this.currentPage.page.template?.key);
+
 
       if (item) {
         // const factory: ComponentFactory<any> = this._componentFactoryResolver.resolveComponentFactory(

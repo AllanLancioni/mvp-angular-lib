@@ -6,3 +6,17 @@
   organization: string;
   components: Type<any>[];
 }
+
+ export class GlobalData {
+
+  static components: Type<any>[] = [];
+
+  static addComponent(item: Type<any>) {
+    GlobalData.components.push(item);
+  }
+
+   static getComponents() {
+     return GlobalData.components;
+   }
+
+}

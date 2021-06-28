@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Product} from 'mvp-kruzer';
 
 @Component({
   selector: 'app-test2',

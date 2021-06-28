@@ -1,5 +1,5 @@
-import { ComponentFactory, ComponentFactoryResolver, Directive, Inject, Input, OnChanges, OnDestroy, SimpleChanges, Type, ViewContainerRef, } from '@angular/core';
-import {KruzerLibConfig} from '../kruzer-lib.config';
+import { ComponentFactory, ComponentFactoryResolver, Directive, Inject, Input, OnChanges, OnDestroy, SimpleChanges, Type, ViewContainerRef } from '@angular/core';
+import {GlobalData, KruzerLibConfig} from '../kruzer-lib.config';
 import {KRUZER_LIB_CONFIG} from '../kruzer-lib.config.token';
 import {CmsService} from '../services/cms.service';
 
@@ -28,11 +28,9 @@ export class DynamicBlockDirective implements OnDestroy, OnChanges {
       const key = this.dynamicBlock.value.template.key;
       this.attributes = this.dynamicBlock.value.attributes;
 
-      this.componentItem = this.keyConfig.components.find( (x: Type<any>) => x.name === key );
+      // this.componentItem = this.keyConfig.components.find( (x: Type<any>) => x.name === key );
 
-      // this.componentItem = ComponentItemFactory.create(key, {
-        // attr: this.attributes,
-      // });
+      this.componentItem = GlobalData.getComponents().find( (c: Type<any>) => c.name === key );
 
       this.addComponent();
     }

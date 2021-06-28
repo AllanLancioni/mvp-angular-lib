@@ -8,7 +8,6 @@
  export * from './lib/mvp-kruzer.decorator';
  export * from './lib/kruzer-lib.config';
  export * from './lib/components/resolver/resolver.component';
- export * from './lib/mvp-kruzer.product.component';
  export * from './lib/components/components/page.component';
  export * from './lib/directives/dynamic-block.directive';
  export * from './lib/directives/bg-url.directive';
