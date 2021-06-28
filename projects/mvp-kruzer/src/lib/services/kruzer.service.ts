@@ -1,9 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService, STORAGE_KEYS } from './localstorage.service';
 import { Lang } from '../interfaces';
+import { v4 as uuidv4 } from 'uuid';
+import {KRUZER_LIB_CONFIG} from '../kruzer-lib.config.token';
+import {KruzerLibConfig} from '../kruzer-lib.config';
+
 
 const jwt = new JwtHelperService();
 
@@ -13,14 +17,19 @@ const jwt = new JwtHelperService();
 export class KruzerService {
 
   public readonly userSubject = new BehaviorSubject<any>(null);
-  public apiHost: string = 'https://kzcms.kruzer.io/api';
-  public siteId: string = '';
+  // public apiHost = 'https://spcms.kruzer.io/api';
+  public apiHost = 'http://localhost:4030/api';
+  public imageBlobHost = 'https://krzstgblob.blob.core.windows.net';
 
   constructor(
     private http: HttpClient,
-    private localStorage: LocalStorageService
-  ) { }
-
+    private localStorage: LocalStorageService,
+    @Inject(KRUZER_LIB_CONFIG) private keyConfig: KruzerLibConfig,
+  ) {
+    (async () => {
+      if ( this.globalConfig === '' ) { await this.getGlobalConfig(); }
+    })();
+  }
 
   public get lang(): Lang {
     return (this.localStorage.getItem('lang') as Lang) || 'ptbr';
@@ -71,6 +80,9 @@ export class KruzerService {
   }
 
   public get anonymousId(): string {
+    if ( this.localStorage.getItem(STORAGE_KEYS.anonymousKey) === '' ) {
+      this.localStorage.setItem(STORAGE_KEYS.anonymousKey, uuidv4());
+    }
     return this.localStorage.getItem(STORAGE_KEYS.anonymousKey);
   }
 
@@ -80,14 +92,19 @@ export class KruzerService {
 
   public get tenantId(): string {
     return '5ff4ec54672df8b22c1de26e';
-  }  
+  }
+
+  public get siteId(): string {
+    return this.keyConfig.site;
+  }
 
   get headers() {
+
     return {
       headers: new HttpHeaders({
         ...(this.hasUserToken && !this.isExpired
-          ? { 'Authorization': `Bearer ${this.userToken}` }
-          : { 'Anonymous': this.anonymousId }),
+          ? { Authorization: `Bearer ${this.userToken}` }
+          : { Anonymous: this.anonymousId }),
       }),
     };
   }
@@ -103,7 +120,7 @@ export class KruzerService {
 
   async getGlobalConfig(): Promise<any> {
     const response = await this.http
-      .get(`${this.apiHost}/cms/v1/sites/${this.siteId}`, this.headers)
+      .get(`${this.apiHost}/cms/v1/sites/${this.keyConfig.site}`, this.headers)
       .toPromise();
     this.globalConfig = response;
     return response;

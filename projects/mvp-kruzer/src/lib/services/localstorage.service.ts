@@ -7,7 +7,7 @@ export const STORAGE_KEYS: { [key: string]: string } = {
   globalConfigKey: 'kz_global_config',
   anonymousKey: 'kz_anonymous_key',
   categoriesKey: 'kz_categories_key',
-}
+};
 
 class LocalStorage implements Storage {
   [name: string]: any;
@@ -16,7 +16,7 @@ class LocalStorage implements Storage {
     // return Object.keys(this).length;
   }
   clear(): void {
-    // Object.keys(this).forEach(key => delete this[key]); 
+    // Object.keys(this).forEach(key => delete this[key]);
   }
   getItem(key: string): string | null {
     // return this[key];
@@ -47,14 +47,14 @@ export class LocalStorageService implements Storage {
 
   [name: string]: any;
 
-  length: number;
+  length = 0;
 
   clear(): void {
     this.storage.clear();
   }
 
   getItem(key: string): any {
-    return this.storage.getItem(key) ? JSON.parse(this.storage.getItem(key)) : null;
+    return this.storage.getItem(key) ? JSON.parse(this.storage.getItem(key) || '') : '';
   }
 
   key(index: number): string | null {

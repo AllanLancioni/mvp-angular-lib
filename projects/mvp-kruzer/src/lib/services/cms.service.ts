@@ -1,16 +1,28 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { Lang } from "../interfaces";
-import { KruzerService } from "./kruzer.service";
-import { LocalStorageService } from "./localstorage.service";
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, Injector } from '@angular/core';
+import {KRUZER_LIB_CONFIG} from '../kruzer-lib.config.token';
+import {KruzerLibConfig} from '../kruzer-lib.config';
+import { Observable } from 'rxjs';
+import { Lang } from '../interfaces';
+import { KruzerService } from './kruzer.service';
+import { LocalStorageService } from './localstorage.service';
 
 @Injectable({ providedIn: 'root' })
 export class CmsService {
+
+  // config: KruzerLibConfig = null;
+  // http: HttpClient;
+  // kruzerService: KruzerService;
+
   constructor(
-    private http: HttpClient, 
-    private kruzerService: KruzerService
-  ) {}
+    private http: HttpClient,
+    // private localStorage: LocalStorageService,
+    public kruzerService: KruzerService
+  ) {
+    // this.config = injector.get(KRUZER_LIB_CONFIG);
+    // this.http  = injector.get(HttpClient);
+    // this.kruzerService = injector.get(KruzerService);
+  }
 
   public get categories(): any[] {
     return this.kruzerService.globalConfig.categories;
@@ -20,39 +32,35 @@ export class CmsService {
     return this.kruzerService.globalConfig.blocks;
   }
 
-  searchProducts(params = {}): Observable<any> {
-    const url = this.kruzerService.getUrlParams(
-      `${this.kruzerService.apiHost}/cms/v1/sites/${this.kruzerService.siteId}/search`,
-      params
-    );
-    return this.http.get<any>(url, { observe: 'response', ...this.kruzerService.headers });
+  // searchProducts(params = {}): Observable<any> {
+    // const url = this.kruzerService.getUrlParams(
+      // `${this.kruzerService.apiHost}/cms/v1/sites/${this.kruzerService.siteId}/search`,
+      // params
+    // );
+    // return this.http.get<any>(url, { observe: 'response', ...this.kruzerService.headers });
+  // }
+
+  async getPageByUrl(url: string): Promise<any> {
+    const response: any = await this.http .get(
+      `${this.kruzerService.apiHost}/cms/v1/sites/${ this.kruzerService.siteId}/urls/${url}`,
+      this.kruzerService.headers) .toPromise();
+    const attr = response.page.attributes;
+    for (const key in attr) {
+      if (!attr[key].value) {
+        delete attr[key];
+      }
+    }
+    return response;
   }
 
-  // async getPageByUrl(url: string): Promise<any> {
-  //   const response: any = await this.http
-  //     .get(
-  //       `${this.apiHost}/cms/v1/sites/${this.siteId}/urls/${url}`,
-  //       this.headers
-  //     )
-  //     .toPromise();
-  //   const attr = response.page.attributes;
-  //   for (const key in attr) {
-  //     if (!attr[key].value) {
-  //       delete attr[key];
-  //     }
-  //   }
-  //   return response;
-  // }
-
-
-  // async getBlockById(id: string): Promise<any> {
-  //   return this.http
-  //     .get(
-  //       `${this.apiHost}/cms/v1/sites/${this.siteId}/blocks/${id}`,
-  //       this.headers
-  //     )
-  //     .toPromise();
-  // }
+   async getBlockById(id: string): Promise<any> {
+     return this.http
+       .get(
+         `${this.kruzerService.apiHost}/cms/v1/sites/${this.kruzerService.siteId}/blocks/${id}`,
+         this.kruzerService.headers
+       )
+       .toPromise();
+   }
 
   // async getProducts(category: string, params: GetParams = {}): Promise<any> {
   //   const url = this.getUrlParams(

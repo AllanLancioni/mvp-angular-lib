@@ -1,6 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import {KruzerLibConfig} from './kruzer-lib.config';
-import {KRUZER_LIB_CONFIG} from './kruzer-lib.config.token';
+import { Component, OnInit } from '@angular/core';
+import {CmsService} from './services/cms.service';
 
 @Component({
   selector: 'kz-mvp-kruzer',
@@ -12,10 +11,16 @@ import {KRUZER_LIB_CONFIG} from './kruzer-lib.config.token';
   styles: [
   ]
 })
-export class MvpKruzerComponent {
+export class MvpKruzerComponent implements OnInit {
 
-  constructor(@Inject(KRUZER_LIB_CONFIG) private keyConfig: KruzerLibConfig) {
-    console.log('token', keyConfig.key);
+  constructor(private cmsService: CmsService) {
   }
+
+  async ngOnInit(): Promise<void> {
+    // await this.cmsService.getGlobalConfig();
+     const ret = await this.cmsService.getPageByUrl('home');
+     console.log('ret', ret);
+  }
+
 
 }

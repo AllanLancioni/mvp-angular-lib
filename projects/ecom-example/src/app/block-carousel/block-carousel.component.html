@@ -1,0 +1,7 @@
+<carousel [isAnimated]="true" [showIndicators]='true'>
+<slide *ngFor="let image of attr.images" class="text-center">
+<a [href]="image.link">
+    <img [kzBgUrl]="image.image" [fullWidth]="true" style="border-radius: 10px">
+</a>
+</slide>
+</carousel>

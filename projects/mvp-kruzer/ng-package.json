@@ -3,5 +3,7 @@
   "dest": "../../dist/mvp-kruzer",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+  ]
 }
