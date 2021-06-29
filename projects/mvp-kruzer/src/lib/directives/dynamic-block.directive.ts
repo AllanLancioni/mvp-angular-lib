@@ -29,7 +29,6 @@ export class DynamicBlockDirective implements OnDestroy, OnChanges {
       this.attributes = this.dynamicBlock.value.attributes;
 
       // this.componentItem = this.keyConfig.components.find( (x: Type<any>) => x.name === key );
-
       this.componentItem = GlobalData.getComponents().find( (c: Type<any>) => c.name === key );
 
       this.addComponent();

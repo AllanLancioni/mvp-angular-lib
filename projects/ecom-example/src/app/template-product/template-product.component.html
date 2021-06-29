@@ -1,0 +1,383 @@
+<!-- <kz-breadcrumb [prefix]="product?.categories"></kz-breadcrumb> -->
+<div class="container" *ngIf="product">
+  <div class="row product-details">
+    <div class="col-12 col-lg-6">
+      <ng-container *ngTemplateOutlet="slidesTemplate"></ng-container>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="product-name mb-0">{{ actualSku.commercialName }}</h2>
+        </div>
+        <div class="col-12">
+          <div class="d-flex flex-column">
+            <div>
+              <div class="d-flex justify-content-between">
+
+                <small class="text-muted font-weight-bolder">
+                  Cod: {{ actualSku.code }}
+                </small>
+
+                <!-- <small class="text-muted" *ngIf="isAvailable">Produto disponível em estoque</small> -->
+
+              </div>
+              <div class="rating d-flex align-items-center">
+                <small class="text-muted">
+                  {{ product?.rating?.total ? product.rating?.total + ' avaliações' : 'Nenhuma avaliação ainda' }}
+                </small>
+                <a class="btn btn-link text-secondary btn-sm" (click)="openModalRating()">
+                  Ver Avaliações
+                </a>
+              </div>
+              <kz-rateyo [ngModel]="product.rating?.avg" disabled [options]="{ ratedFill: '#33a890' }"></kz-rateyo>
+              <div class="text-muted text-justify">
+                {{ actualSku.shortDescription }}
+              </div>
+
+              <ng-container *ngIf="!product.isKit && product.skus.length > 1; else kits">
+                <img [kzBgUrl]="sku.image" class="skus-container my-3" [title]="actualSku.name"
+                  [class.active]="sku._id == actualSku._id" type="PRODUCT" *ngFor="let sku of product.skus" height="100"
+                  (click)="switchSku(sku)" />
+              </ng-container>
+
+              <ng-template #kits>
+                <hr>
+                <h5>
+                  {{ product.products.length }} produtos no kit
+                  <!-- <a (click)="toggleKitsProducts = !toggleKitsProducts" class="pointer small">
+                    ver todos
+                  </a> -->
+                </h5>
+                <!-- <div class="kits-container">
+                  <ng-container *ngTemplateOutlet="kitProducts; context: { products: productsInKitPriority }"></ng-container>
+                  <ng-container *ngIf="!toggleKitsProducts">
+                    <ng-container *ngTemplateOutlet="kitProducts; context: { products: productsInKitNotPriority }"></ng-container>
+                  </ng-container>
+                </div> -->
+                
+                <!-- <ng-template #kitProducts let-products="products">
+                  <div *ngFor="let kitItem of products; index as i" class="text-secondary my-2">
+                    Variacao selecionada:
+                    <strong>{{ kitItem.actualSku.commercialName }}</strong>
+                    <div class="d-flex my-1">
+                      <div *ngFor="let sku of kitItem.skus" [title]="kitItem.actualSku.commercialName">
+                        <img [class.active]="sku._id == kitItem.actualSku._id" (click)="switchKitSku(kitItem , sku)"
+                          class="skus-container" [kzBgUrl]="sku.image" height="75">
+                        <strong class="col-12"></strong>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                </ng-template> -->
+              </ng-template>
+
+              <div class="mt-3" *ngIf="isAvailable; else noProductsAvailable">
+                <div class="mt-3">
+                  <div class="d-flex justify-content-between">
+                    <div class="row align-items-center">
+                      <div class="mb-2">
+                        <kz-control-qty [(ngModel)]="productQty"></kz-control-qty>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="!isSubscribed && product.belongSubscription" class="text-info">
+
+                    <div class="row justify-content-between mt-3">
+                      <div class="col-12 d-flex justify-content-between align-items-center">
+                        <div>
+                          para compras programadas
+                          <h2 class="text-info text-left">
+                            <strong>
+                              {{ actualSku.prices?.subscriber?.price | currency: "BRL" }}
+                            </strong>
+                          </h2>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-md-6">
+                            <button (click)="subscribeProduct()" class="btn-block btn-sign">
+                              <strong>Recompra programada</strong>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="isSubscribed && product.belongSubscription">
+                    <div class="text-info text-center my-2">
+                      <strong>Este item já está em suas compras programadas
+                        <a href="assinatura">clique aqui</a> para visualizar</strong>
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-between ">
+                    <div class="col-12 align-items-center d-flex justify-content-between">
+                      <div>
+                        <del *ngIf="(actualSku.prices?.retail.listPrice != actualSku.prices.retail.price) && actualSku.prices.retail.listPrice"
+                          class="text-muted">{{ actualSku.prices?.retail.listPrice | currency: 'BRL' }}</del>
+                        <h2 class="text-secondary">
+                          <strong>{{actualSku.prices?.retail?.price | currency: "BRL"}}</strong>
+                        </h2>
+                      </div>
+                      <div>
+                        <div class="row">
+                          <div class="col-12 col-md-6">
+                            <button class=" btn-buy" (click)="addToCart()">
+                              <strong>Comprar</strong>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 col-12 benefits">
+                <div>
+                  <strong>
+                    <span>{{ actualSku.benefitsTitle }}</span>
+                  </strong>
+                </div>
+                <ul class="mt-2">
+                  <li *ngFor="let benefit of product.benefits">{{ benefit }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <accordion [isAnimated]="true">
+    <accordion-group [isOpen]="true" panelClass="accordion-informations" heading="Aqui eu explico tudinho sobre mim =)">
+      <div class="product-stamps row">
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.hypoallergenic">
+          <img src="assets/image/pet-icon.png" alt="" />
+          <h5 class="text-primary">
+            <strong>Hipoalergênico e seguro para toda a família</strong>
+          </h5>
+          <span class="text-primary">Seguro para itens de bebês, pets e da família toda!</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.biodegradable">
+          <img src="assets/image/enviro-icon.png" alt="" width="100px" />
+          <h5 class="text-primary"><strong>Biodegradável</strong></h5>
+          <span class="text-primary">A base de plantas, sua fórmula se decompõe rapidamente e evita a
+            poluição das águas</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.dispenseSoftener">
+          <img src="assets/image/amaciante-icon.png" alt="" />
+          <h5 class="text-primary">
+            <strong>Dispensa o uso de amaciante</strong>
+          </h5>
+          <span class="text-primary">Sua fórmula não endurece as fibras dos tecidos, por isso, dispensa
+            amaciante e só faz bem!</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.smellOrange">
+          <img src="assets/image/orange-icon.png" alt="" width="80px" />
+          <h5 class="text-primary mt-2">
+            <strong>Com o poder e cheirinho de laranja</strong>
+          </h5>
+          <span class="text-primary">A ação dos terpenas da casca da laranja limpam suas roupas comm
+            alta performance</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.allClothesColors">
+          <img src="assets/image/cloth-icon.png" alt="" />
+          <h5 class="text-primary">
+            <strong>Para todas as cores de roupas</strong>
+          </h5>
+          <span class="text-primary">ideal para todos os tipos de roupas e tecidos. Cuidado e carinho
+            com sua peça favorita!</span>
+        </div>
+
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.moreLiquidity">
+          <img src="assets/image/liquid-icon.png" alt="" />
+          <h5 class="text-primary">
+            <strong>Mais liquidez, mais eficácia</strong>
+          </h5>
+          <span class="text-primary">Livre de espessante, torna mais fácil o processo de alcançar cada
+            pedacinho da roupa.</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.vegan">
+          <img src="assets/image/vegan-icon.png" alt="" />
+          <h5 class="text-primary"><strong>Vegano</strong></h5>
+          <span class="text-primary">Sem igredientes ou testes em animais.</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.recycled">
+          <img src="assets/image/frasco-icon.png" alt="" />
+          <h5 class="text-primary">
+            <strong>Frasco 100% Reciclado e Reciclável </strong>
+          </h5>
+          <span class="text-primary">O frasco é 100% feito com resíduos plásticos coletados por
+            cooperativas. Isso é economia circular na prática!</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.littleFoam">
+          <img src="assets/image/buble-icon.png" alt="" />
+          <h5 class="text-primary">
+            <strong>Fas pouca espuma mas limpa muito!</strong>
+          </h5>
+          <span class="text-primary">Espuma como sinônimo de limpeza é a coisa do passado! Confie nas
+            enzimas multifuncionais!</span>
+        </div>
+        <div class="col-md-5ths my-4" *ngIf="actualSku.attributes.costBenefit">
+          <img src="assets/image/pig-icon.png" alt="" />
+          <h5 class="text-primary">
+            <strong>Excelente custo-benefício</strong>
+          </h5>
+          <span class="text-primary">Concentrado: 1 tampinha (30ml) lava até 8kg de roupas. Ou seja, 1
+            litro lava até 246kg de roupas!</span>
+        </div>
+      </div>
+    </accordion-group>
+    <accordion-group *ngFor="let item of actualSku.attributes.accordions" [isOpen]="true"
+      panelClass="accordion-informations" [heading]="item.title">
+      <div [innerHTML]="item.html | kzSanitize"></div>
+    </accordion-group>
+  </accordion> -->
+
+  <ng-container *ngIf="actualSku.similar && actualSku.similar.length">
+    <hr />
+    <div class="row mt-5">
+      <div class="col-12">
+        <!-- <kz-product-showcase title="Produtos Similares" [skus]="actualSku.similar"></kz-product-showcase> -->
+      </div>
+
+      <!-- <div *ngFor="let product of products; let i = index" class="col-sm-12 col-md-6 text-center">
+        <div class="d-flex card flex-row p-3 buy-togheter">
+          <div class="card-off" *ngIf="product.off">{{ product.off }}% OFF</div>
+          <div class="img-container">
+            <img [src]="product.image" [alt]="product.image" class="product-image" />
+          </div>
+          <div class="p-2 text-left">
+            <div class="product-title">
+              <span>
+                <strong> {{ product.name }} </strong></span>
+              <div>
+                <small class="text-muted">Positiva</small>
+              </div>
+            </div>
+            <div class="mt-2">
+              <span><strong>R$ {{ product.price }}</strong> ou {{ product.times }}x
+                s/ juros de R$ {{ product.timesPrice }}</span>
+            </div>
+            <button class="mt-3 w-100 btn-buy">Adicionar</button>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </ng-container>
+
+  <!-- <ng-container *ngIf="product.boughtTogether && product.boughtTogether.length">
+    <hr />
+    <div class="row mt-5">
+      <div class="col-12">
+        <kz-product-showcase title="Aproveite e veja também" [skus]="product.boughtTogether"></kz-product-showcase>
+      </div>
+    </div>
+  </ng-container> -->
+
+  <!-- <ng-container *ngIf="product.boughtTogether && product.boughtTogether.length">
+    <hr>
+    <div class="row mt-5">
+      <div class="col-12">
+        <h3 class="text-secondary text-center">
+          <strong>Compre Junto</strong>
+        </h3>
+      </div>
+      <div class="row">
+        <ng-container *ngFor="let product of products">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <kz-product-container [product]="product"></kz-product-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container> -->
+
+  <ng-template #zoomTemplate>
+    <div class="container p-3">
+      <div class="row align-items-center no-gutters">
+        <div class="col-1 text-center">
+          <button (click)="clickImage(-1)" class="rounded-pill p-0 btn btn-slide d-none d-md-block"
+            *ngIf="actualSku.images.length > 1">
+            <strong>
+              <a class="menu-item d-flex text-secondary">
+                <i class="material-icons">navigate_before</i>
+              </a>
+            </strong>
+          </button>
+        </div>
+        <div class="col-12 col-md-10 text-center p-3">
+          <img class="bordered-image full-size-zoom-image" [kzBgUrl]="currentImage?.uri" type="PRODUCT"
+            [alt]="currentImage?.description" />
+        </div>
+        <div class="col-1 text-center">
+          <button (click)="clickImage(1)" class="rounded-pill p-0 btn btn-slide d-none d-md-block"
+            *ngIf="actualSku.images.length > 1">
+            <a class="menu-item d-flex text-secondary">
+              <i class="material-icons">navigate_next</i>
+            </a>
+          </button>
+        </div>
+        <div class="col-12">
+          <div class="preview-container">
+            <ng-container *ngFor="let image of actualSku.images">
+              <img class="m-2 image-slide-preview image-preview" (mouseover)="hoverImage(image)" [kzBgUrl]="image.uri"
+                [alt]="image?.description" [class.active]="image === currentImage" />
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-12 text-right">
+          <button class="btn btn-primary">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #slidesTemplate>
+    <div class="content-gallery">
+      <div class="row">
+        <div class="col-2">
+          <button (click)="clickImage(-1)" class="rounded-pill btn btn-nxt-frw btn-slide"
+            *ngIf="actualSku.images.length > 1">
+            <strong>
+              <a class="menu-item d-flex text-secondary">
+                <i class="material-icons">navigate_before</i>
+              </a>
+            </strong>
+          </button>
+        </div>
+        <div class="col-8">
+          <div class="img-container" (click)="openLightBox(zoomTemplate)">
+            <img [kzBgUrl]="currentImage?.uri" type="PRODUCT" [alt]="currentImage?.description"
+              class="product-image bordered-image" />
+          </div>
+        </div>
+        <div class="col-2">
+          <button (click)="clickImage(1)" class="rounded-pill btn btn-slide" *ngIf="actualSku.images.length > 1">
+            <a class="menu-item d-flex text-secondary">
+              <i class="material-icons">navigate_next</i>
+            </a>
+          </button>
+        </div>
+      </div>
+      <div class="preview-container">
+        <ng-container *ngFor="let image of actualSku.images">
+          <img class="image-preview" (mouseover)="hoverImage(image)" [kzBgUrl]="image.uri" [alt]="image?.description"
+            [class.active]="image === currentImage" />
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #noProductsAvailable class="align-items-left">
+  <div class="mt-3">
+    <div class="d-flex justify-content-center text-muted"><strong>Produto esgotado</strong></div>
+    <a class="btn btn-block btn-secondary" (click)="openModalNotify()">
+      Me avise quando chegar!
+    </a>
+  </div>
+
+
+</ng-template>

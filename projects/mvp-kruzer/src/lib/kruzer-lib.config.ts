@@ -12,6 +12,7 @@
   static components: Type<any>[] = [];
 
   static addComponent(item: Type<any>) {
+    console.log("add data", item)
     GlobalData.components.push(item);
   }
 

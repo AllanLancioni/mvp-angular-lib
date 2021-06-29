@@ -1,2 +1,252 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./assets/styles/variables.scss";
 @import "node_modules/bootstrap/scss/bootstrap";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap");
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  min-height: 100%;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.material-icons {
+  font-size: 1.25rem;
+  vertical-align: sub;
+}
+
+//.carousel-indicators {
+  //visibility: hidden !important;
+//}
+
+//.carousel-indicators li{
+  //border-radius: 50%;
+  //height: 10px;
+  //width: 10px;
+//}
+
+.carousel-indicators {
+  li {
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+  }
+  .active {
+    opacity: 1!important;
+    background-color: #33a890 !important; 
+  }
+}
+
+.srating {
+  color: $kz-info-color;
+}
+
+.form-control {
+  border: 1px solid #c4c4c4 !important;
+  background-color: #f7fbff;
+  border: #dee8f2;
+
+
+ 
+   &::placeholder{
+     color: #CFCFCF;
+   }
+}
+
+input:not([value=""]){
+  background-color: #fff;
+}
+.modal-cart {
+  position: absolute !important;
+  right: 0 !important;
+  margin: 0 !important;
+
+  .modal-content {
+    border-radius: 0;
+    border: none;
+
+    overflow-y: auto;
+    height: 100vh !important;
+    animation-name: cart-slide;
+    animation-duration: 0.2s;
+  }
+
+  @keyframes cart-slide {
+    0% {
+      transform: translateX(440px);
+    }
+    75% {
+    }
+    100% {
+      transform: translateX(0px);
+    }
+  }
+}
+
+.modal-order {
+  &.modal-dialog {
+    max-width: 50vw !important;
+  }
+}
+
+.modal-addresses {
+  &.modal-dialog-centered {
+    justify-content: center;
+  }
+  &.modal-dialog {
+    max-width: 100vw !important;
+  }
+  .modal-content {
+    width: 70vw;
+    height: auto;
+  }
+}
+.modal-add-subscription{
+  &.modal-dialog-centered{
+    justify-content: center;
+  }
+  &.modal-dialog {
+    max-width: 100vw !important;
+  }
+  .modal-content {
+    width: 60vw;
+    height: auto;
+  }
+}
+.modal-slideshow {
+  &.modal-dialog-centered {
+    justify-content: center;
+  }
+  &.modal-dialog {
+    max-width: 100vw !important;
+
+  }
+  .modal-content {
+    width: 60vw;
+    height: auto;
+  }
+}
+.modal-create-subscription{
+  width: 90vw;
+  height: auto;
+
+}
+.bg-img {
+  background-position: center center;
+  background-size: cover;
+}
+
+.ngx-slider-ceil {
+  display: none !important;
+}
+.ngx-slider-floor {
+  display: none !important;
+}
+
+@media (min-width: 1200px) {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 1400px;
+  }
+}
+
+
+
+.panel {
+  .accordion-informations {
+    border: none;
+    text-align: center;
+
+    .accordion-toggle {
+      text-align: left!important;
+    }
+
+    .btn-link {
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 31px!important;
+    }
+    .panel-heading {
+      margin: 5px;
+      border-radius: 30px;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+
+      &::after {
+        content: "expand_more";
+        font-family: "Material Icons";
+        font-size: 1.9rem;
+        color: $kz-secondary-color;
+        transition: 0.2s;
+        transform: rotate(0deg);
+      }
+    }
+  }
+  &.panel-open .accordion-informations .panel-heading::after {
+    transform: rotate(-180deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .panel {
+    .accordion-informations {
+      .btn-link {
+        text-align: left;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.steps-indicator{
+  display: none !important;
+}
+
+a.link {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.bg-img{
+  height: 280px !important;
+
+}
+.panel-title{
+  width: 100%;
+}
+
+.modal-title {
+  color: $kz-primary-color;
+  font-weight: bold;
+}
+.modal-footer {
+  display: flex;
+  button:not(:last-child) {
+    margin-left: .5rem;
+  }
+}
+
+.alert.alert-light {
+  border: 1px solid #eee;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.not-resize{
+  resize: none;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  width: 5%;
+}
+
+.pac-container{
+  z-index: 1090;
+}

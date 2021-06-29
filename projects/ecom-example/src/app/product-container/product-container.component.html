@@ -1,0 +1,27 @@
+<a *ngIf="product" class="text-center w-100 mt-1 d-block" [class.borders]="borders" [href]="'/' + product.product.urls[0]?.key+'?code='+product.code">
+    <div class="d-flex card flex-column text-left product-content overflow-hidden" [ngClass]="'border-' + borders">
+        <div class="card-off" *ngIf="product.off">{{ product.off }}% OFF</div>
+        <div class="img-container">
+            <img [kzBgUrl]="product.images[0]?.uri" [alt]="product.images[0]?.description || 'Sem descrição'" class="product-image" />
+            <img [kzBgUrl]="product.images[1]?.uri || product.images[0]?.uri" [alt]="product.images[0]?.description || 'Sem descrição'" class="product-image" />
+        </div>
+
+        <div class="p-4 text-center mt-3">
+            <kz-rateyo class="d-flex justify-content-center" [ngModel]="product.product?.rating?.avg" disabled [options]="{ ratedFill: '#33a890' }"></kz-rateyo>
+            <h4 class="product-title">{{ product.name }}</h4>
+            <div *ngIf="product.prices?.retail.listPrice !== product.prices?.retail?.price">
+                <del class="text-muted">{{ product.prices.retail?.listPrice | currency: 'BRL' }}</del>
+            </div>
+            <div>
+                <h6 class="font-weight-bolder">{{ product.prices?.retail?.price | currency: 'BRL' }}</h6>
+            </div>
+            <div class="text-info">
+                <h5 class="font-weight-bolder">{{ product.prices?.subscriber?.price | currency: 'BRL' }}
+                    <small class="font-weight-bolder">para compras programadas</small>
+                </h5>
+            </div>
+            <div class="new text-center" *ngIf="product.isNew">LANÇAMENTO</div>
+        </div>
+
+    </div>
+</a>

@@ -13,6 +13,7 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "strictPropertyInitialization": false,
     "paths": {
       "mvp-kruzer": [
         "dist/mvp-kruzer/mvp-kruzer",

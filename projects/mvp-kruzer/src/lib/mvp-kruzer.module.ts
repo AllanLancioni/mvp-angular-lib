@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule} from '@angular/common/http';
 import { BgUrlDirective } from './directives/bg-url.directive';
 import {DynamicBlockDirective} from './directives/dynamic-block.directive';
+import { KzRateyoComponent } from './components/components/rateyo.component';
+import { TranslatePipe } from './directives/translate.pipe';
 
 
 @NgModule({
@@ -15,7 +17,10 @@ import {DynamicBlockDirective} from './directives/dynamic-block.directive';
     MvpKruzerComponent,
     SearchComponent,
    BgUrlDirective,
-    DynamicBlockDirective
+    DynamicBlockDirective,
+    KzRateyoComponent,
+    TranslatePipe
+
   ],
   imports: [
     CommonModule,
@@ -26,7 +31,9 @@ import {DynamicBlockDirective} from './directives/dynamic-block.directive';
   exports: [
     MvpKruzerComponent,
     BgUrlDirective,
-    DynamicBlockDirective
+    DynamicBlockDirective,
+    KzRateyoComponent,
+    TranslatePipe,
   ],
   entryComponents: [MvpKruzerComponent]
 })

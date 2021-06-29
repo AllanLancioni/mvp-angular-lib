@@ -11,4 +11,6 @@
  export * from './lib/components/components/page.component';
  export * from './lib/directives/dynamic-block.directive';
  export * from './lib/directives/bg-url.directive';
+ export * from './lib/components/components/rateyo.component';
+ export * from './lib/directives/translate.pipe'
 

@@ -1,0 +1,57 @@
+.showcase {
+	position: relative;
+      
+	.overflowed {
+	  display: flex;
+	  margin-right: -15px;
+	  margin-left: -15px;
+	  overflow: hidden;
+	  position: relative;
+	  width: 90%;
+	  margin: 0 5%;
+	}
+      
+	.btn-control {
+	  position: absolute;
+	  z-index: 10;
+	  top: 39%;
+	  background-color: grey transparent;
+	  border: 1px solid transparent;
+	  border-radius: 100%;
+	  width: 4rem;
+	  height: 4rem;
+	  text-align: center;
+	  opacity: 0;
+	  transition: .5s;
+      
+	  * {
+	    text-decoration: none;
+	  }
+      
+	  &.btn-control-right {
+	    right: 0;
+	  }
+      
+	  &.btn-control-left {
+	    left: 0;
+	  }
+	}
+	&:hover {
+	  .btn-control {
+	    opacity: 1;
+	  }
+	}
+	&:disabled {
+	  opacity: .25;
+	}
+      }
+      
+      .resize {
+	height: 10%;
+	// weight: 10%;
+      }
+      
+      .material-icons {
+	font-size: 3.5rem;
+	vertical-align: sub;
+      }
