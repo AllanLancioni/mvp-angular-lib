@@ -15,10 +15,10 @@
             <div>
                 <h6 class="font-weight-bolder">{{ product.prices?.retail?.price | currency: 'BRL' }}</h6>
             </div>
-            <div class="text-info">
-                <h5 class="font-weight-bolder">{{ product.prices?.subscriber?.price | currency: 'BRL' }}
-                    <small class="font-weight-bolder">para compras programadas</small>
-                </h5>
+            <div class="text-info signature-info" *ngIf="product.prices?.subscriber?.price">
+                <span class="font-weight-bolder">{{ product.prices?.subscriber?.price | currency: 'BRL' }}
+                    <small>para compras programadas</small>
+                </span>
             </div>
             <div class="new text-center" *ngIf="product.isNew">LANÇAMENTO</div>
         </div>

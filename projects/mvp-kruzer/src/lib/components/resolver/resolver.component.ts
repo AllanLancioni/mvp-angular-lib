@@ -3,12 +3,10 @@ import { AfterViewInit, Component, ComponentFactory, ComponentFactoryResolver,
   ViewChild,
   ViewContainerRef, } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
-import {DynamicItemDirective} from '../../directives/dynamic-item.directive';
-import {GlobalData, KruzerLibConfig} from '../../kruzer-lib.config';
-import {KRUZER_LIB_CONFIG} from '../../kruzer-lib.config.token';
-import {MvpKruzerComponent} from '../../mvp-kruzer.component';
-import {KruzerService} from '../../services/kruzer.service';
-import {TemplateComponent} from '../template/template.component';
+import { KruzerLibConfig } from '../../kruzer-lib.config';
+import { KRUZER_LIB_CONFIG } from '../../kruzer-lib.config.token';
+import { KruzerService } from '../../services/kruzer.service';
+import { TemplateComponent } from '../template/template.component';
 
 @Component({
   selector: 'kz-resolver',
@@ -19,9 +17,6 @@ import {TemplateComponent} from '../template/template.component';
   `
 })
 export class ResolverComponent extends TemplateComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  // currentUrl: string;
-  // currentPage: any;
   route$: Subscription | undefined;
   globalPages: any[] = Object.values(this.kruzerService.globalConfig.pages);
   pageNotFound = false;
@@ -52,15 +47,11 @@ export class ResolverComponent extends TemplateComponent implements OnInit, Afte
 
   async loadPage() {
 
-    // this.spinner.show();
     if (!this.currentUrl) {
       this.currentUrl = this.kruzerService.globalConfig.homePage || 'home';
     }
     try {
-
-
       const found = this.globalPages.find(x => x.urls.find((y: any) => y.lang === this.kruzerService.lang && y.url === this.currentPage));
-
       this.currentPage = await this.getCurrentPage(found?.page || this.currentUrl);
 
       // const item = ComponentItemFactory.create(this.currentPage.page.template?.key, {
@@ -77,12 +68,7 @@ export class ResolverComponent extends TemplateComponent implements OnInit, Afte
       // obtem do globaldata -> via decorators
       // const item = GlobalData.getComponents().find((c: any) => c.name === this.currentPage.page.template?.key);
 
-
       if (item) {
-        // const factory: ComponentFactory<any> = this._componentFactoryResolver.resolveComponentFactory(
-          // (item as Type<any>));
-
-        // const factory: ComponentFactory<any> = this._componentFactoryResolver.resolveComponentFactory(kzProductComponent);
         const factory: ComponentFactory<any> = this._componentFactoryResolver.resolveComponentFactory(item);
         this.dynamicItem.clear();
         const componentRef: ComponentRef<any> = this.dynamicItem.createComponent( factory );

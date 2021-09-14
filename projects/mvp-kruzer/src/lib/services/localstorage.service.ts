@@ -1,14 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
-export const STORAGE_KEYS: { [key: string]: string } = {
-  tokenKey: 'token_key',
-  userKey: 'tkn_user',
-  globalConfigKey: 'kz_global_config',
-  anonymousKey: 'kz_anonymous_key',
-  categoriesKey: 'kz_categories_key',
-};
-
 class LocalStorage implements Storage {
   [name: string]: any;
   get length(): number {
@@ -16,7 +8,7 @@ class LocalStorage implements Storage {
     // return Object.keys(this).length;
   }
   clear(): void {
-    // Object.keys(this).forEach(key => delete this[key]);
+    // Object.keys(this).forEach(key => delete this[key]); 
   }
   getItem(key: string): string | null {
     // return this[key];
@@ -47,14 +39,14 @@ export class LocalStorageService implements Storage {
 
   [name: string]: any;
 
-  length = 0;
+  length: number;
 
   clear(): void {
     this.storage.clear();
   }
 
   getItem(key: string): any {
-    return this.storage.getItem(key) ? JSON.parse(this.storage.getItem(key) || '') : '';
+    return this.storage.getItem(key) ? JSON.parse(this.storage.getItem(key)) : null;
   }
 
   key(index: number): string | null {

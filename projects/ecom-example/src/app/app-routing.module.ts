@@ -5,8 +5,7 @@ import {TemplateTestComponent} from './template-test/template-test.component';
 import {Test2Component} from './test2/test2.component';
 
 const routes: Routes = [
-  { path: 'tt', component: Test2Component},
-  { path: 'tst', component: Test2Component},
+  { path: '', component: ResolverComponent},
   { path: ':url', component: ResolverComponent},
 ];
 
